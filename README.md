@@ -55,3 +55,67 @@ docker run \
   ```
 
 Review the output for any HIGH or CRITICAL vulnerabilities.
+
+## **4\. Deployment to Minikube**
+
+To deploy your local image to Minikube, you must first ensure the cluster is running, load the image into its internal registry, and then apply the Kubernetes configuration files (deployment.yaml and service.yaml).
+
+### **4.1. Start Minikube Cluster**
+
+Ensure your local Kubernetes environment is active:
+
+```
+minikube start
+```
+
+### **4.2. Load Image into Minikube**
+
+This command transfers the image from your local Docker host into the Minikube VM, allowing Kubernetes to access it without pulling from a remote registry.
+
+```
+minikube image load fastapi-app:latest
+```
+
+### **4.3. Apply Kubernetes Manifests**
+
+Apply the deployment and service configurations in a single command.
+
+```
+kubectl apply -f deployment.yaml -f service.yaml
+```
+
+### **4.4. Verify Deployment Status**
+
+Check that the application Pod is running successfully before attempting to access the service. Look for the Pod status to be Running.
+
+```
+kubectl get pods
+```
+
+### **4.5. Access the Application**
+
+Once deployed, use minikube service to get the external URL for your application.
+
+```
+minikube service fastapi-service --url
+```
+
+The output will be the URL you can use in your browser to access the deployed FastAPI application.
+
+## **5\. Cluster Cleanup**
+
+After testing or development, you can stop the Minikube cluster to free up system resources.
+
+```
+minikube stop
+```
+
+## **Minikube Configuration Files**
+
+### **deployment.yaml**
+
+See the deployment.yaml file for the full manifest.
+
+### **service.yaml**
+
+See the service.yaml file for the full manifest.
